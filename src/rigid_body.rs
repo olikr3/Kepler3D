@@ -12,7 +12,7 @@ pub struct RigidBody {
 
 impl RigidBody {
 
-    fn new(mass: f32, radius:f32, pos: Vector3, velocity: Vector3) -> Self {
+    pub fn new(mass: f32, radius:f32, pos: Vector3, velocity: Vector3) -> Self {
         Self { mass, radius, pos, velocity }
     }
 
