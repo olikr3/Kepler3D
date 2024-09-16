@@ -23,6 +23,18 @@ impl Vector3 {
         let mag = self.magnitude();
         Vector3::new(self.x / mag, self.y / mag, self.z / mag)
     }
+
+    pub fn x(&self) -> f32 {
+        self.x
+    }
+
+    pub fn y(&self) -> f32 {
+        self.y
+    }
+
+    pub fn z(&self) -> f32 {
+        self.z
+    }
 }
 
 impl Add for Vector3 {
