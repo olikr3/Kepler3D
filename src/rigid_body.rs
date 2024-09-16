@@ -18,9 +18,6 @@ pub struct RigidBody {
     // constants
     inertia:f32,
     inverse_inertia: f32
-    //force: Vector3,
-    //torque: Vector3,
-    //shape: Shape -- for the future...
 }
 
 impl RigidBody {
@@ -32,12 +29,8 @@ impl RigidBody {
     pub fn recalculate(&mut self) {
         self.angular_velocity = self.angular_momentum * self.inverse_inertia;
         self.orientation.normalize();
-        let q = Quaternion::new(0, self.angular_velocity.x(), self.angular_velocity.y(), self.angular_velocity.z());
-        selfspin = 0.5 * q * self.orientation;
-    }
-
-    fn compute_force_and_torque(&self) {
-        todo!()
+        let q = Quaternion::new(0.0, self.angular_velocity.x(), self.angular_velocity.y(), self.angular_velocity.z());
+        self.spin = 0.5 * q * self.orientation;
     }
 
     fn accelerate(acc: Vector3) {

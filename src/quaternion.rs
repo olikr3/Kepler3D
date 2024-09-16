@@ -4,6 +4,7 @@
 use std::ops::{Add, Sub, Mul};
 use crate::matrix::Matrix;
 
+#[derive(Debug, Eq, PartialEq)]
 pub struct Quaternion {
     /// Quaternion for 3D rotations, q = w + xi + yj + zk for w, x, y, z ∈ R
     /// Properties:
