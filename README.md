@@ -1,5 +1,5 @@
 # Kepler3D
-a 3D physics engine
+a constraint-based 3D physics engine
 
 some greate ressources:
 - http://allenchou.net/game-physics-series/
