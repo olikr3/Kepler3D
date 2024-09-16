@@ -14,7 +14,7 @@ impl Matrix {
         Self { rows, cols, data }
     }
 
-    pub fn transpose(&self) -> Matrix {
+    pub fn transpose(&self) -> Self {
         let mut transposed_data = vec![0.0; self.data.len()];
         for r in 0..self.rows {
             for c in 0..self.cols {
@@ -25,14 +25,14 @@ impl Matrix {
         Matrix::new(self.cols, self.rows, transposed_data)
     }
 
-    pub fn negate(&self) -> Matrix {
+    pub fn negate(&self) -> Self {
         let neg_data: Vec<f32> = self.data.iter().map(|&x| -x).collect();
         Matrix::new(self.rows, self.cols, neg_data)
     }
 }
 
 impl Mul for Matrix {
-    type Output = Matrix;
+    type Output = Self;
 
     fn mul(self, other: Matrix) -> Matrix {
         assert_eq!(self.cols, other.rows, "wrong dimensions");
@@ -54,7 +54,7 @@ impl Mul for Matrix {
 }
 
 impl Add for Matrix {
-    type Output = Matrix;
+    type Output = Self;
 
     fn add(self, other: Matrix) -> Matrix {
         assert_eq!(self.rows, other.rows, "wrong dimensions");
@@ -72,7 +72,7 @@ impl Add for Matrix {
 }
 
 impl Sub for Matrix {
-    type Output = Matrix;
+    type Output = Self;
 
     fn sub(self, other: Matrix) -> Matrix {
         assert_eq!(self.rows, other.rows, "wrong dimensions");
