@@ -13,6 +13,14 @@ impl Vector3 {
         Self { x, y, z }
     }
 
+    pub fn zeros() -> Self {
+        Self {
+            x: 0.0,
+            y: 0.0,
+            z: 0.0,
+        }
+    }
+
     // length of vector
     pub fn magnitude(&self) -> f32 {
         (self.x * self.x + self.y * self.y + self.z * self.z).sqrt()

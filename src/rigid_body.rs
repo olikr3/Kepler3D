@@ -22,8 +22,22 @@ pub struct RigidBody {
 
 impl RigidBody {
 
-    pub fn new() -> Self {
-        todo!()
+    pub fn new(orientation: Quaternion, angular_momentum: Vector3, inertia: f32) -> Self {
+
+        let inv = if inertia != 0.0 {
+            0.1 * inertia
+        }
+        else {
+            0.0
+        };
+        Self {
+            orientation,
+            angular_momentum,
+            spin: Quaternion::new(0.0,0.0,0.0,0.0), //placeholder
+            angular_velocity: Vector3::zeros(),
+            inertia,
+            inverse_inertia: inv,
+        }
     }
 
     /// update state of rigid body
