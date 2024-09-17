@@ -16,9 +16,9 @@ Perhaps I will change that in a later version.
 
 Done:
 - Basic data structures and logic
-- Methods to compute movement
 
 Todo:
-- Constraints
+- Collision detection
+- Collision resolution
 - Graphics
 - and much more
