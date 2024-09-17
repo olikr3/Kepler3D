@@ -13,7 +13,6 @@ impl PhysicsWorld {
     pub fn new() -> Self {
         Self {
             objects: Vec::new(),
-            gravity: 9.81,
             constraints: Vec::new(),
         }
     }

@@ -1,6 +1,6 @@
 use std::ops::{Add, Sub, Mul};
 
-#[derive(Debug, Clone, Copy, Eq)]
+#[derive(Debug, Clone, Copy)]
 pub struct Vector3 {
     x: f32,
     y: f32,
@@ -66,5 +66,29 @@ impl Mul for Vector3 {
 
     fn mul(self, other: Vector3) -> f32 {
         self.x * other.x + self.y * other.y + self.z * other.z
+    }
+}
+
+impl Mul<f32> for Vector3 {
+    type Output = Vector3;
+
+    fn mul(self, scalar: f32) -> Vector3 {
+        Vector3 {
+            x: self.x * scalar,
+            y: self.y * scalar,
+            z: self.z * scalar,
+        }
+    }
+}
+
+impl Mul<Vector3> for f32 {
+    type Output = Vector3;
+
+    fn mul(self, v: Vector3) -> Vector3 {
+        Vector3 {
+            x: self * v.x,
+            y: self * v.y,
+            z: self * v.z
+        }
     }
 }

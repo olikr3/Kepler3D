@@ -26,6 +26,7 @@ impl RigidBody {
         todo!()
     }
 
+    /// update state of rigid body
     pub fn recalculate(&mut self) {
         self.angular_velocity = self.angular_momentum * self.inverse_inertia;
         self.orientation.normalize();
@@ -33,7 +34,4 @@ impl RigidBody {
         self.spin = 0.5 * q * self.orientation;
     }
 
-    fn accelerate(acc: Vector3) {
-        todo!()
-    }
 }

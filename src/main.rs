@@ -1,11 +1,11 @@
 mod vector3;
 mod matrix;
 mod rigid_body;
-mod game_world;
+mod physics_world;
 mod constraint;
 mod quaternion;
 
-use crate::game_world::PhysicsWorld;
+use crate::physics_world::PhysicsWorld;
 use crate::rigid_body::RigidBody;
 use crate::vector3::Vector3;
 
@@ -27,6 +27,6 @@ fn main() {
     }
 */
 
-    let mut system = GameWorld::new();
+    let mut system = PhysicsWorld::new();
     println!("Hello, world!");
 }
