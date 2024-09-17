@@ -1,13 +1,14 @@
 use crate::rigid_body::RigidBody;
 use crate::constraint::Constraint;
 
-pub struct GameWorld {
+
+/// a collection of rigid bodies and constraints
+pub struct PhysicsWorld {
     objects: Vec<RigidBody>,
     constraints: Vec<Box<dyn Constraint>>,
-    gravity: f64,
 }
 
-impl GameWorld {
+impl PhysicsWorld {
 
     pub fn new() -> Self {
         Self {
@@ -33,9 +34,5 @@ impl GameWorld {
             //apply gravity
             //solve constraints etc.
         }
-    }
-
-    pub fn disable_gravity(&mut self) {
-        self.gravity = 0.0;
     }
 }

@@ -5,7 +5,7 @@ mod game_world;
 mod constraint;
 mod quaternion;
 
-use crate::game_world::GameWorld;
+use crate::game_world::PhysicsWorld;
 use crate::rigid_body::RigidBody;
 use crate::vector3::Vector3;
 

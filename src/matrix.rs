@@ -1,3 +1,4 @@
+use crate::quaternion::Quaternion;
 use std::ops::{Add, Sub, Mul};
 
 #[derive(Debug, Clone)]
@@ -28,6 +29,10 @@ impl Matrix {
     pub fn negate(&self) -> Self {
         let neg_data: Vec<f32> = self.data.iter().map(|&x| -x).collect();
         Matrix::new(self.rows, self.cols, neg_data)
+    }
+
+    pub fn to_quaternion(&self) -> Quaternion {
+        todo!()
     }
 }
 

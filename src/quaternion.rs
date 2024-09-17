@@ -107,3 +107,29 @@ impl Mul for Quaternion {
         }
     }
 }
+
+impl Mul<f32> for Quaternion {
+    type Output = Quaternion;
+
+    fn mul(self, scalar: f32) -> Quaternion{
+        Quaternion {
+            w: self.w * scalar,
+            x: self.x * scalar,
+            y: self.y * scalar,
+            z: self.z * scalar,
+        }
+    }
+}
+
+impl Mul<Quaternion> for f32 {
+    type Output = Quaternion;
+
+    fn mul(self, q: Quaternion) -> Quaternion {
+        Quaternion {
+            w: self * q.w,
+            x: self * q.x,
+            y: self * q.y,
+            z: self * q.z,
+        }
+    }
+}

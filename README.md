@@ -9,3 +9,13 @@ some great ressources:
 Quaternions and matrices:
 - https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation#Conversion_to_and_from_the_matrix_representation
 - https://www.sjbrown.co.uk/posts/representing-rotations-in-quaternion-arithmetic/
+
+
+Done:
+- Basic data structures and logic
+- Methods to compute movement
+
+Todo:
+- Constraints
+- Graphics
+- and much more
