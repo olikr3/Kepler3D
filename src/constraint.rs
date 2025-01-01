@@ -1,29 +1,42 @@
 
 pub trait Constraint {
-    /// checks whether the constraint is satisfied.
-    fn evaluate(&self) -> f32;
-
-    /// applies the necessary forces to maintain the constraint.
-    fn solve(&mut self);
+    fn apply(&self, dt: f32, bodies: &mut [RigidBody]);
 }
 
-/// represents a distance constraint between two points on two bodies.
+pub struct FixedPointConstraint {
+    body_index: usize,
+    fixed_point: Vector3<f32>,
+}
+
+impl Constraint for FixedPointConstraint {
+    fn apply(&self, _dt: f32, bodies: &mut [RigidBody]) {
+        let body = &mut bodies[self.body_index];
+        body.position = self.fixed_point; // Overwrite the position to the fixed point
+        body.linear_velocity = Vector3::zeros(); // Stop motion
+        body.angular_velocity = Vector3::zeros(); // Stop rotation
+    }
+}
+
 pub struct DistanceConstraint {
-    pub point_a: (f32, f32, f32),
-    pub point_b: (f32, f32, f32),
-    pub rest_distance: f32,
+    body_a: usize,
+    body_b: usize,
+    target_distance: f32,
 }
 
 impl Constraint for DistanceConstraint {
-    fn evaluate(&self) -> f32 {
-        let (ax, ay, az) = self.point_a;
-        let (bx, by, bz) = self.point_b;
-        let distance = ((bx - ax).powi(2) + (by - ay).powi(2) + (bz - az).powi(2)).sqrt();
-        return distance - self.rest_distance;
-    }
+    fn apply(&self, _dt: f32, bodies: &mut [RigidBody]) {
+        let body_a = &mut bodies[self.body_a];
+        let body_b = &mut bodies[self.body_b];
 
-    fn solve(&mut self) {
-        todo!();
+        let delta = body_b.position - body_a.position;
+        let current_distance = delta.norm();
+        let correction = (self.target_distance - current_distance) * 0.5;
+
+        if current_distance > 0.0 {
+            let correction_vector = delta.normalize() * correction;
+            body_a.position -= correction_vector; // Move body A
+            body_b.position += correction_vector; // Move body B
+        }
     }
 }
 
