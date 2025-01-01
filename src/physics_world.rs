@@ -25,6 +25,16 @@ impl PhysicsWorld {
         self.constraints.push(constraint);
     }
 
+    pub fn step(&mut self, dt: f32) {
+        for body in &mut self.bodies {
+            body.integrate(dt);
+        }
+
+        for constraint in &self.constraints {
+            constraint.apply(dt, &mut self.bodies);
+        }
+    }
+
     // simulate the world for 'dt' seconds
     pub fn simulate(&mut self, dt: usize) {
         for _ in 0..dt {

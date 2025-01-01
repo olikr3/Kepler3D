@@ -1,51 +1,64 @@
-use crate::vector3::Vector3;
-use crate::quaternion::Quaternion;
-use crate::matrix::Matrix;
+use nalgebra::{Vector3, Matrix3, Quaternion, UnitQuaternion};
 
-/// linear velocity:  x(t) -> rate of change of position
-/// angular velocity: w(t) -> rate of change of orientation
-
+#[derive(Debug, Clone)]
 pub struct RigidBody {
-
-    //primary
-    orientation: Quaternion,
-    angular_momentum: Vector3,
-
-    // secondary
-    spin: Quaternion,
-    angular_velocity: Vector3,
-
-    // constants
-    inertia:f32,
-    inverse_inertia: f32
+    pub position: Vector3<f32>,
+    pub orientation: UnitQuaternion<f32>,
+    pub linear_velocity: Vector3<f32>,
+    pub angular_velocity: Vector3<f32>,
+    pub mass: f32,
+    pub inverse_mass: f32,
+    pub inertia_tensor: Matrix3<f32>,
+    pub inverse_inertia_tensor: Matrix3<f32>,
 }
 
 impl RigidBody {
-
-    pub fn new(orientation: Quaternion, angular_momentum: Vector3, inertia: f32) -> Self {
-
-        let inv = if inertia != 0.0 {
-            0.1 * inertia
-        }
-        else {
-            0.0
+    
+    pub fn new(
+        position: Vector3<f32>,
+        orientation: Quaternion<f32>,
+        mass: f32,
+        inertia_tensor: Matrix3<f32>,
+    ) -> Self {
+        let inverse_mass = if mass > 0.0 { 1.0 / mass } else { 0.0 };
+        let inverse_inertia_tensor = if mass > 0.0 {
+            inertia_tensor.try_inverse().unwrap_or_else(Matrix3::zeros)
+        } else {
+            Matrix3::zeros()
         };
-        Self {
-            orientation,
-            angular_momentum,
-            spin: Quaternion::new(0.0,0.0,0.0,0.0), //placeholder
+
+        RigidBody {
+            position,
+            orientation: UnitQuaternion::from_quaternion(orientation),
+            linear_velocity: Vector3::zeros(),
             angular_velocity: Vector3::zeros(),
-            inertia,
-            inverse_inertia: inv,
+            mass,
+            inverse_mass,
+            inertia_tensor,
+            inverse_inertia_tensor,
         }
     }
 
-    /// update state of rigid body
-    pub fn recalculate(&mut self) {
-        self.angular_velocity = self.angular_momentum * self.inverse_inertia;
-        self.orientation.normalize();
-        let q = Quaternion::new(0.0, self.angular_velocity.x(), self.angular_velocity.y(), self.angular_velocity.z());
-        self.spin = 0.5 * q * self.orientation;
+    pub fn world_inverse_inertia_tensor(&self) -> Matrix3<f32> {
+        let rotation = self.orientation.to_rotation_matrix();
+        rotation * self.inverse_inertia_tensor * rotation.transpose()
     }
 
+    pub fn apply_force(&mut self, force: Vector3<f32>, point: Vector3<f32>) {
+        self.linear_velocity += force * self.inverse_mass;
+
+        // compute torque
+        let r = point - self.position;
+        let torque = r.cross(&force);
+        self.angular_velocity += self.world_inverse_inertia_tensor() * torque;
+    }
+
+    /// Integrates the rigid body's state over time step `dt`.
+    pub fn integrate(&mut self, dt: f32) {
+        self.position += self.linear_velocity * dt;
+
+        let angular_displacement =
+            UnitQuaternion::from_scaled_axis(self.angular_velocity * dt);
+        self.orientation = (angular_displacement * self.orientation).normalized();
+    }
 }
