@@ -59,6 +59,6 @@ impl RigidBody {
 
         let angular_displacement =
             UnitQuaternion::from_scaled_axis(self.angular_velocity * dt);
-        self.orientation = (angular_displacement * self.orientation).normalized();
+        self.orientation = (angular_displacement * self.orientation).normalize();
     }
 }

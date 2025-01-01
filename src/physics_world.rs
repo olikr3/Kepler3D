@@ -26,8 +26,8 @@ impl PhysicsWorld {
     }
 
     pub fn step(&mut self, dt: f32) {
-        for body in &mut self.bodies {
-            body.integrate(dt);
+        for obj in &mut self.objects {
+            obj.integrate(dt);
         }
 
         for constraint in &self.constraints {

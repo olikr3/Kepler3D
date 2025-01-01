@@ -1,13 +1,9 @@
-mod vector3;
-mod matrix;
 mod rigid_body;
 mod physics_world;
 mod constraint;
-mod quaternion;
 
 use crate::physics_world::PhysicsWorld;
 use crate::rigid_body::RigidBody;
-use crate::vector3::Vector3;
 
 const NUM_BODIES: usize = 100;
 

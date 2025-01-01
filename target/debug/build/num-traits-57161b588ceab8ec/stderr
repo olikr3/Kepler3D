@@ -1,0 +1,11 @@
+error[E0658]: use of unstable library feature 'total_cmp'
+ --> <anon>:1:31
+  |
+1 | pub fn probe() { let _ = 1f64.total_cmp(&2f64); }
+  |                               ^^^^^^^^^
+  |
+  = note: see issue #72599 <https://github.com/rust-lang/rust/issues/72599> for more information
+
+error: aborting due to previous error
+
+For more information about this error, try `rustc --explain E0658`.
