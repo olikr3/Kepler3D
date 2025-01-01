@@ -1,3 +1,5 @@
+use nalgebra::Vector3;
+use crate::RigidBody;
 
 pub trait Constraint {
     fn apply(&self, dt: f32, bodies: &mut [RigidBody]);
